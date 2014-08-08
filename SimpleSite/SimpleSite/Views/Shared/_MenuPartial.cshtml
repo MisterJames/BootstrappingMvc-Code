@@ -1,0 +1,23 @@
+﻿
+@using SimpleSite.Models
+<ul class="nav navbar-nav">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <li>@Html.ActionLink("About", "About", "Home")</li>
+    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    <li>@Html.ActionLink("My Peeps", "Index", "Simple")</li>
+
+    @if (ViewBag.Notifications != null)
+    {
+        foreach (NotificationViewModel notification in ViewBag.Notifications)
+        {
+            <li>
+                <a href="#">
+                    @notification.NotificationType
+                    <span class="badge badge-@notification.BadgeClass">
+                        @notification.Count
+                    </span>
+                </a>
+            </li>
+        }
+    }
+</ul>

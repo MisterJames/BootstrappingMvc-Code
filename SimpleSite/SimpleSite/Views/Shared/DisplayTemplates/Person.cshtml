@@ -1,0 +1,18 @@
+﻿@model SimpleSite.Models.Person
+
+<hr />
+<div class="row">
+    <div class="col-md-2">
+        @Html.GravatarImage(Model.EmailAddress)
+    </div>
+    <div class="col-md-8">
+        <h3>@Model.FirstName @Model.LastName</h3>
+        <p>@Model.FirstName was born on @Model.BirthDate.ToString("D").</p>
+        <p>Likes Music: @Html.DisplayFor(model => model.LikesMusic)</p>
+        @{
+            ViewBag.ListDescription = "Skills:";
+            Html.RenderPartial("_StringCollection", Model.Skills);
+        }
+    </div>
+</div>
+

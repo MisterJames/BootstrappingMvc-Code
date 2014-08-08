@@ -1,0 +1,36 @@
+﻿<script type="text/javascript">
+
+    var readUrl = '@Url.Action("MarkNotificationAsRead")';
+    var deleteUrl = '@Url.Action("Delete")';
+    var confirmUrl = '@Url.Action("GetNotification")';
+    var previewContainer = $('#deleteConfirmModal #notificationPreview');
+    var currentNotificationId;
+
+    function updateNotification(id, action) {
+        $("#notificationFormItemId").val(id);
+        switch (action) {
+            case 'read':
+                $("#notificationForm").attr('action', readUrl).submit();
+                break;
+            case 'delete':
+                $("#notificationForm").attr('action', deleteUrl).submit();
+                break;
+            default:
+                console.debug('Unknown action ' + action);
+        }
+    }
+
+    function confirmDelete(id) {
+        currentNotificationId = id;
+        previewContainer.html('<p>Loading content...</p>');
+        previewContainer.load(confirmUrl, { id: currentNotificationId });
+        $('#deleteConfirmModal').modal('show');
+    }
+
+    $(function () {
+        $("#deleteConfirmModal").on('click', "#deleteConfirm", function () {
+            updateNotification(currentNotificationId, 'delete');
+        });
+    });
+
+</script>

@@ -1,0 +1,42 @@
+﻿@using SimpleSite.Models
+@model IEnumerable<Notification>
+
+<div class="table-responsive">
+    <table class="table table-striped ">
+        <tr>
+            <th>Type</th>
+            <th>Notification</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var notification in Model)
+        {
+            var badgeClass = NotificationType.Email == notification.NotificationType
+                ? "label-success"
+                : "label-info";
+            <tr>
+                <td><span class="label @badgeClass">@notification.NotificationType</span></td>
+                <td>@notification.Title</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-success btn-sm" href="javascript:updateNotification(@notification.NotificationId, 'read')">Mark as Read</a>
+                        <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="javascript:confirmDelete(@notification.NotificationId)">Delete</a>
+                            </li>
+                            <li><a href="#">Send SMS</a></li>
+                            <li><a href="#">Make cheese</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Baz</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<form id="notificationForm" method="POST"><input type="hidden" name="id" id="notificationFormItemId" /></form>

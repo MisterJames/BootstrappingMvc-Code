@@ -1,0 +1,59 @@
+﻿@using SimpleSite.Models;
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Manage Account";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <p class="text-success">@ViewBag.StatusMessage</p>
+
+        <ul class="nav nav-tabs" role="tablist" id="accountTab">
+            <li class="active"><a href="#notifications" role="tab" data-toggle="tab">Notifications</a></li>
+            <li><a href="#linkedAccounts" role="tab" data-toggle="tab">Linked Accounts</a></li>
+            <li><a href="#passwordReset" role="tab" data-toggle="tab">Password Reset</a></li>
+        </ul>
+
+        <div class="tab-content">
+
+            <div class="tab-pane active" id="notifications">
+                @Html.Partial("_RenderNotifications", ViewBag.NotificationList as IEnumerable<Notification>)
+            </div>
+
+            <div class="tab-pane " id="linkedAccounts">
+                <section id="externalLogins">
+                    @Html.Action("RemoveAccountList")
+                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { Action = "LinkLogin", ReturnUrl = ViewBag.ReturnUrl })
+                </section>
+            </div>
+
+            <div class="tab-pane " id="passwordReset">
+                @if (ViewBag.HasLocalPassword)
+                {
+                    @Html.Partial("_ChangePasswordPartial")
+                }
+                else
+                {
+                    @Html.Partial("_SetPasswordPartial")
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section topLevel{
+
+    @{ Html.RenderPartial("_RenderNotifications.Modal"); }
+
+}
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @{ Html.RenderPartial("_RenderNotifications.js"); }
+
+}
